@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "First Blog Post",
+    "description": "This is the first blog post.",
+    "image": "/images/auto-image-carousel.jpg",
+    "content": "This is the detailed content of the first blog post."
+  },
+  {
+    "id": 2,
+    "title": "Second Blog Post",
+    "description": "This is the second blog post.",
+    "image": "/images/auto-image-carousel.jpg",
+    "content": "This is the detailed content of the second blog post."
+  }
+]

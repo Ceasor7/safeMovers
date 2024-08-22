@@ -1,0 +1,18 @@
+{
+    "sourceFile": "safe-movers/emails/contact-form.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1720702796941,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1720702796941,
+            "name": "Commit-0",
+            "content": "<div style=\"font-family: sans-serif;\">\n    <h1>Contact Form Inquiry</h1>\n    <p>You have received the following inquiry:</p>\n    <br>\n    <p>Name: {{ name }}</p>\n    <p>PhoneNumber {{phonenumber}}</p>\n    <p>Email: {{ email }}</p>\n    <br>\n    <p>Message:</p>\n    <p>{{ message }}</p>\n    <br>\n</div>"
+        }
+    ]
+}

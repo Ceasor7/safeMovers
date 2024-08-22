@@ -1,0 +1,18 @@
+{
+    "sourceFile": "safe-movers/src/app/api/upload/route.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1720704339646,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1720704339646,
+            "name": "Commit-0",
+            "content": "import fs from 'fs';\nimport path from 'path';\n\nexport default async function handler(req, res) {\n  if (req.method === 'POST') {\n    const newPost = req.body;\n    const filePath = path.join(process.cwd(), 'public', 'blogData.json');\n\n    try {\n      const fileContents = fs.readFileSync(filePath, 'utf8');\n      const data = JSON.parse(fileContents);\n\n      // Generate a new unique ID for the new post\n      newPost.id = data.length ? data[data.length - 1].id + 1 : 1;\n\n      data.push(newPost);\n      fs.writeFileSync(filePath, JSON.stringify(data, null, 2));\n\n      res.status(200).json({ message: 'Blog post uploaded successfully' });\n    } catch (error) {\n      res.status(500).json({ error: 'Failed to upload blog post' });\n    }\n  } else {\n    res.status(405).json({ message: 'Method not allowed' });\n  }\n}\n"
+        }
+    ]
+}

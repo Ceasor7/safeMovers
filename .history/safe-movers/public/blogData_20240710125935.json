@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "First Blog Post",
+    "description": "This is the first blog post.",
+    "image": "/images/auto-image-carousel.jpg",
+    "content": [
+      {
+        "heading": "Introduction",
+        "text": "This is the detailed introduction of the first blog post."
+      },
+      {
+        "heading": "Main Content",
+        "text": "This is the main content of the first blog post.",
+        "image": "/images/another-image.jpg"
+      },
+      {
+        "heading": "Conclusion",
+        "text": "This is the conclusion of the first blog post."
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Second Blog Post",
+    "description": "This is the second blog post.",
+    "image": "/images/auto-image-carousel.jpg",
+    "content": [
+      {
+        "heading": "Introduction",
+        "text": "This is the detailed introduction of the second blog post."
+      },
+      {
+        "heading": "Main Content",
+        "text": "This is the main content of the second blog post.",
+        "image": "/images/another-image2.jpg"
+      },
+      {
+        "heading": "Conclusion",
+        "text": "This is the conclusion of the second blog post."
+      }
+    ]
+  }
+]

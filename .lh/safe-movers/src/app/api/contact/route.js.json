@@ -1,0 +1,26 @@
+{
+    "sourceFile": "safe-movers/src/app/api/contact/route.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1720699247800,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1720699410120,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,17 +7,17 @@\n     // Create a Nodemailer transporter\n     const transporter = nodemailer.createTransport({\n       service: 'gmail', // e.g., 'gmail'\n       auth: {\n-        user: process.env.EMAIL_USER, // your email\n-        pass: process.env.EMAIL_PASS, // your email password\n+        user: process.env.NEXT_PUBLIC_ADMIN_EMAIL, // your email\n+        pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD, // your email password\n       },\n     });\n \n     // Email options\n     const mailOptions = {\n       from: email,\n-      to: process.env.EMAIL_TO, // your email\n+      to: process.env.NEXT_PUBLIC_ADMIN_EMAIL_FULL, // your email\n       subject: `New message from ${name}`,\n       text: message,\n       html: `<p>You have a new message from <b>${name}</b> (${email})</p><p>${message}</p>`,\n     };\n"
+                },
+                {
+                    "date": 1720699456040,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,36 +1,42 @@\n-import nodemailer from 'nodemailer';\n+import { mailOptions, transporter } from '../../../../emails/client';\n+import { replaceMergeTags, stripHTMLTags } from '../../../../emails/helpers';\n \n-export default async function handler(req, res) {\n-  if (req.method === 'POST') {\n-    const { name, email, message } = req.body;\n+import fs from 'fs';\n+import { NextResponse } from 'next/server';\n+import path from 'path';\n \n-    // Create a Nodemailer transporter\n-    const transporter = nodemailer.createTransport({\n-      service: 'gmail', // e.g., 'gmail'\n-      auth: {\n-        user: process.env.NEXT_PUBLIC_ADMIN_EMAIL, // your email\n-        pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD, // your email password\n-      },\n-    });\n+export async function POST(request) {\n+  const data = await request.json();\n \n-    // Email options\n-    const mailOptions = {\n-      from: email,\n-      to: process.env.NEXT_PUBLIC_ADMIN_EMAIL_FULL, // your email\n-      subject: `New message from ${name}`,\n-      text: message,\n-      html: `<p>You have a new message from <b>${name}</b> (${email})</p><p>${message}</p>`,\n-    };\n+  // get html template\n+  const htmlFilePath = path.join(process.cwd(), 'emails', 'contact-form.html');\n \n-    // Send email\n-    try {\n-      await transporter.sendMail(mailOptions);\n-      res.status(200).json({ success: true });\n-    } catch (error) {\n-      console.error('Error sending email:', error);\n-      res.status(500).json({ success: false });\n+  let htmlContent = fs.readFileSync(\n+    htmlFilePath,\n+    'utf8',\n+    (err, htmlContent) => {\n+      if (err) {\n+        console.error('Error reading HTML file: ', err);\n+        return;\n+      }\n     }\n-  } else {\n-    res.status(405).json({ message: 'Method not allowed' });\n+  );\n+\n+  // replace merge tags with values\n+  htmlContent = replaceMergeTags(data, htmlContent);\n+  const plainTextContent = stripHTMLTags(htmlContent);\n+\n+  try {\n+    await transporter.sendMail({\n+      ...mailOptions,\n+      subject: `New Contact Form Inquiry`,\n+      text: plainTextContent,\n+      html: htmlContent,\n+    });\n+\n+    return NextResponse.json({ success: true });\n+  } catch (err) {\n+    console.error(err);\n+    return NextResponse.json({ error: err.message }, { status: err.status });\n   }\n }\n"
+                }
+            ],
+            "date": 1720699247800,
+            "name": "Commit-0",
+            "content": "import nodemailer from 'nodemailer';\n\nexport default async function handler(req, res) {\n  if (req.method === 'POST') {\n    const { name, email, message } = req.body;\n\n    // Create a Nodemailer transporter\n    const transporter = nodemailer.createTransport({\n      service: 'gmail', // e.g., 'gmail'\n      auth: {\n        user: process.env.EMAIL_USER, // your email\n        pass: process.env.EMAIL_PASS, // your email password\n      },\n    });\n\n    // Email options\n    const mailOptions = {\n      from: email,\n      to: process.env.EMAIL_TO, // your email\n      subject: `New message from ${name}`,\n      text: message,\n      html: `<p>You have a new message from <b>${name}</b> (${email})</p><p>${message}</p>`,\n    };\n\n    // Send email\n    try {\n      await transporter.sendMail(mailOptions);\n      res.status(200).json({ success: true });\n    } catch (error) {\n      console.error('Error sending email:', error);\n      res.status(500).json({ success: false });\n    }\n  } else {\n    res.status(405).json({ message: 'Method not allowed' });\n  }\n}\n"
+        }
+    ]
+}
